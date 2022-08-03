@@ -11,7 +11,7 @@ from .base import BaseRepo
 class PackageRepo(BaseRepo):
 
     async def create_package(self, userid:int , p: package_models.Package):
-        package = package_models.Package(
+        package = package_models.Package_In(
             id = 0,
             user_id = userid,
             weight = p.weight,
@@ -26,5 +26,9 @@ class PackageRepo(BaseRepo):
         return package
 
     async def get_packages(self, limit: int = 100, skip: int = 0):
-        query = package_db.select().limit(100).offset(skip)
+        query = package_db.select().limit(limit).offset(skip)
+        return await database.fetch_all(query)
+
+    async def get_client_packages(self, user_id: int, limit: int = 100, skip: int = 0):
+        query = package_db.select().where(package_db.c.user_id == user_id).limit(limit).offset(skip)
         return await database.fetch_all(query)

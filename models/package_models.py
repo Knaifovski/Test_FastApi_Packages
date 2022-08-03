@@ -7,7 +7,6 @@ from datetime import datetime
 
 class Package(BaseModel):
     id: Optional[int] = None
-    user_id: int
     weight: float
     comment: str
     updated_at: datetime
@@ -16,6 +15,6 @@ class Package(BaseModel):
 class Package_out(Package):
     pass
 
-
 class Package_In(Package):
+    user_id: int
     created_at: datetime
